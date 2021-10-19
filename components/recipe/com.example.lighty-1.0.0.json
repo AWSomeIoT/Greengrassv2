@@ -1,0 +1,42 @@
+{
+  "RecipeFormatVersion": "2020-01-25",
+  "ComponentName": "com.example.lighty",
+  "ComponentVersion": "1.0.0",
+  "ComponentDescription": "My led control component.",
+  "ComponentPublisher": "Me",
+  "ComponentConfiguration": {
+    "DefaultConfiguration": {
+      "message": "hello",
+      "accessControl": {
+        "aws.greengrass.ipc.pubsub": {
+          "com.example.lighty:pubsub:1": {
+            "policyDescription": "Allows access to subscribe to mypi/button.",
+            "operations": [
+              "aws.greengrass#SubscribeToTopic"
+            ],
+            "resources": [
+              "mypi/button"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "Manifests": [
+    {
+      "Platform": {
+        "os": "linux"
+      },
+      "Lifecycle": {
+        "Install": {
+          "RequiresPrivilege": true,
+          "script": "python3 -m pip install --user awsiotsdk"
+        },
+        "Run": {
+          "RequiresPrivilege": true,
+          "script": "python3 -u {artifacts:path}/lighty.py '{configuration:/message}'"
+        }
+      }
+    }
+  ]
+}
