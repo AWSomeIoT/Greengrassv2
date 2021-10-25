@@ -4,7 +4,7 @@ import sys
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(17,GPIO.OUT)
+GPIO.setup(17,GPIO.OUT)     #Pin 17 is the green LED
 
 sleeptime = float(sys.argv[1])
 
