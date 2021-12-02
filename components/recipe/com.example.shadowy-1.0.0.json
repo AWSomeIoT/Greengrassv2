@@ -1,0 +1,53 @@
+{
+    "RecipeFormatVersion": "2020-01-25",
+    "ComponentName": "com.example.shadowy",
+    "ComponentVersion": "1.0.0",
+    "ComponentDescription": "Local Shadows read/write and sync to IoT core with shadow manager",
+    "ComponentPublisher": "Me",
+    "ComponentConfiguration": {
+      "DefaultConfiguration": {
+        "accessControl": {
+            "aws.greengrass.ShadowManager": {
+              "com.example.shadowy:shadow:1": {
+                "policyDescription": "Allows access to shadows",
+                "operations": [
+                  "aws.greengrass#GetThingShadow",
+                  "aws.greengrass#UpdateThingShadow",
+                  "aws.greengrass#DeleteThingShadow"
+                ],
+                "resources": [
+                  "$aws/things/MyPi/shadow",
+                  "$aws/things/MyPi/shadow/name/myNamedShadow"
+                ]
+              },
+              "com.example.shadowy:shadow:2": {
+                "policyDescription": "Allows access to things with shadows",
+                "operations": [
+                  "aws.greengrass#ListNamedShadowsForThing"
+                ],
+                "resources": [
+                  "MyPi"
+                ]
+              }    
+            }
+          }
+      }
+    },
+    "Manifests": [
+      {
+        "Platform": {
+          "os": "linux"
+        },
+        "Lifecycle": {
+          "Install": {
+            "RequiresPrivilege": true,
+            "script": "python3 -m pip install --user awsiotsdk"
+          },
+          "Run": {
+            "RequiresPrivilege": true,
+            "script": "python3 -u {artifacts:path}/shadowy.py "
+          }
+        }
+      }
+    ]
+  }

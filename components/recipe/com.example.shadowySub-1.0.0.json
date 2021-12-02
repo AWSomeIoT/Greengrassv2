@@ -1,0 +1,43 @@
+{
+    "RecipeFormatVersion": "2020-01-25",
+    "ComponentName": "com.example.shadowySub",
+    "ComponentVersion": "1.0.0",
+    "ComponentDescription": "Local Shadow update subscription and react",
+    "ComponentPublisher": "Me",
+    "ComponentConfiguration": {
+      "DefaultConfiguration": {
+        "accessControl": {
+            "aws.greengrass.ipc.pubsub": {
+              "com.example.shadowySub:pubsub:1": {
+                "policyDescription": "Allows access to shadow sub topics",
+                "operations": [
+                  "aws.greengrass#SubscribeToTopic"
+                ],
+                "resources": [
+                  "$aws/things/MyPi/shadow/get/accepted",
+                  "$aws/things/MyPi/shadow/name/myNamedShadow/get/accepted",
+                  "$aws/things/MyPi/shadow/name/myNamedShadow/update/accepted"
+                ]
+              }
+            }
+          }
+      }
+    },
+    "Manifests": [
+      {
+        "Platform": {
+          "os": "linux"
+        },
+        "Lifecycle": {
+          "Install": {
+            "RequiresPrivilege": true,
+            "script": "python3 -m pip install --user awsiotsdk"
+          },
+          "Run": {
+            "RequiresPrivilege": true,
+            "script": "python3 -u {artifacts:path}/shadowySub.py "
+          }
+        }
+      }
+    ]
+  }
